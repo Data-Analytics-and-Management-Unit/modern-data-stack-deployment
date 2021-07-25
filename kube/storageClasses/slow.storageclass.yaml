@@ -7,3 +7,6 @@ parameters:
   type: io1
   iopsPerGB: "10"
   fsType: ext4
+  encrypted: "false"
+reclaimPolicy: Retain
+allowVolumeExpansion: true
