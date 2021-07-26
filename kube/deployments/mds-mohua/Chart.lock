@@ -1,0 +1,6 @@
+dependencies:
+- name: ckan
+  repository: https://keitaro-charts.storage.googleapis.com
+  version: 1.0.1
+digest: sha256:0eb4c3fc6128cf2f8419c9c871cc7ea422fa00bc0890a29dd2e4f125b975c47e
+generated: "2021-07-25T20:34:23.670525+05:30"

@@ -1,0 +1,10 @@
+# Default values for ckan-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+ckan:
+  replicaCount: 1
+  image:
+    repository: keitaro/ckan
+    tag: 2.9.2
+    pullPolicy: IfNotPresent
