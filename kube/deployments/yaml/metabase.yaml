@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: metabase
+  name: metabase-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metabase
+    template:
+      metadata:
+        labels:
+          app: matabase
+      spec:
+        containers:
+          - name: ckan
+            image: metabase/metabase
+            ports:
+              - containerPort: 3000
+            env:
+              - name: MB_DB_TYPE
+                value: postgres
+              - name: MB_DB_DBNAME
+                value: metabase
+              - name: MB_DB_PORT
+                value: 5432
+              - name: MB_DB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: metabase-postgres-secret
+                    key:  metabase-postgres-username
+              - name: MB_DB_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: metabase-postgres-secret
+                    key:  metabase-postgres-password
+              - name: MB_DB_HOST
+                value: metabase-service
+---
+# Metabase Service
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: metabase-service
+spec:
+  selector:
+    app: metabase
+  ports:
+    - protocols: TCP
+      port: 3000
+---
+# Metabase Postgres ReplicaSet
+apiVersion: v1
+kind: ReplicaSet
+metadata:
+  name: metabase-postgres-replica-set
+  labels:
+    app: metabase-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metabase-postgres
+  template:
+    metadata:
+      labels:
+        app: metabase-postgres
+    spec:
+      containers:
+        - name: metabase-postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: metabase
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: metabase-postgres-secret
+                  key:  metabase-postgres-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: metabase-postgres-secret
+                  key:  metabase-postgres-password
+---
+# Metabase Postgres PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: metabase-postgres-pvc
+spec:
+  accessModes:
+    - ReadwriteOnce
+  resources:
+    requests:
+      storage: 300Gi
+---
+# Metabase Postgres Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: metabase-postgres-service
+spec:
+  selector:
+    app: metabase-postgres
+  ports:
+    - protocol: TCP
+      port: 5432
