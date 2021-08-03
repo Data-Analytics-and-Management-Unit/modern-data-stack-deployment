@@ -21,11 +21,11 @@ spec:
             - containerPort: 3000
           env:
             - name: MB_DB_TYPE
-              value: postgres
+              value: "postgres"
             - name: MB_DB_DBNAME
-              value: metabase
+              value: "metabase"
             - name: MB_DB_PORT
-              value: 5432
+              value: "5432"
             - name: MB_DB_USER
               valueFrom:
                 secretKeyRef:
@@ -37,7 +37,7 @@ spec:
                   name: metabase-postgres-secret
                   key:  metabase-postgres-password
             - name: MB_DB_HOST
-              value: metabase-service
+              value: "metabase-service"
 ---
 # Metabase Service
 apiVersion: v1
@@ -75,7 +75,7 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_DB
-              value: metabase
+              value: "metabase"
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
