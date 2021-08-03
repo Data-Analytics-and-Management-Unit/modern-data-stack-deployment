@@ -94,7 +94,7 @@ metadata:
   name: metabase-postgres-pvc
 spec:
   accessModes:
-    - ReadwriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 300Gi
