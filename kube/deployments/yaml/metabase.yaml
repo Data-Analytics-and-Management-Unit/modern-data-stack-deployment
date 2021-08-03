@@ -9,35 +9,35 @@ spec:
   selector:
     matchLabels:
       app: metabase
-    template:
-      metadata:
-        labels:
-          app: matabase
-      spec:
-        containers:
-          - name: ckan
-            image: metabase/metabase
-            ports:
-              - containerPort: 3000
-            env:
-              - name: MB_DB_TYPE
-                value: postgres
-              - name: MB_DB_DBNAME
-                value: metabase
-              - name: MB_DB_PORT
-                value: 5432
-              - name: MB_DB_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: metabase-postgres-secret
-                    key:  metabase-postgres-username
-              - name: MB_DB_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: metabase-postgres-secret
-                    key:  metabase-postgres-password
-              - name: MB_DB_HOST
-                value: metabase-service
+  template:
+    metadata:
+      labels:
+        app: matabase
+    spec:
+      containers:
+        - name: ckan
+          image: metabase/metabase
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MB_DB_TYPE
+              value: postgres
+            - name: MB_DB_DBNAME
+              value: metabase
+            - name: MB_DB_PORT
+              value: 5432
+            - name: MB_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: metabase-postgres-secret
+                  key:  metabase-postgres-username
+            - name: MB_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: metabase-postgres-secret
+                  key:  metabase-postgres-password
+            - name: MB_DB_HOST
+              value: metabase-service
 ---
 # Metabase Service
 apiVersion: apps/v1
