@@ -48,7 +48,7 @@ spec:
   selector:
     app: metabase
   ports:
-    - protocols: TCP
+    - protocol: TCP
       port: 3000
 ---
 # Metabase Postgres ReplicaSet
